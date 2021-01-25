@@ -190,7 +190,7 @@ public class DededeSlider extends JFrame implements KeyListener {
 			number = num;
 			text = new JLabel("" + number, SwingConstants.CENTER);
 			text.setFont(new Font("Calibri", Font.PLAIN, 55));
-			text.setBounds(0, 35, 70, 50);
+			text.setBounds(0, 35, 70, 60);
 			this.add(text);
 
 			repaint();

@@ -49,12 +49,12 @@ public class DededeSlider extends JFrame implements KeyListener {
 		}
 
 		
-		ArrayList<Integer> spots = new ArrayList<Integer>();
+		int[] spots = new int[16];
 		
 		for (int i = 1; i <= 16; i++) {
 		
 			//adds all 16 spots in the matrix to a list that will eventually be used randomly get a spot for a unique number
-			spots.add(i);
+			spots[i-1]=i;
 			
 			//while also constructing and adding the pic panels
 			int row = (i - 1) / 4;
@@ -62,16 +62,28 @@ public class DededeSlider extends JFrame implements KeyListener {
 			allPanels[row][col] = new PicPanel();
 			add(allPanels[row][col]);
 		}
+		
+		
 
-		//randomly gives 15 spots in the pic panel matrix a unique number from 1 to 15
-		for (int num = 1; num <= 15; num++) {
+		/* 
+		 * Randomly gives 15 spots in the pic panel matrix a unique number from 1 to 15
+		 * num both represents the pointer in the list of the last index in the list of
+		 * spots that haven't been given and also the number panel 
+		 * that is going to be assigned in the interation to the psot
+		 */
+		for (int num = 15; num >= 1; num--) {
 			
-			//randomly picks one of the 16 spots that have not been picked before (removes from the list after being picked)
-			int rand = spots.remove((int) (Math.random() * spots.size()));
+
+			//randomly picks one of the 16 spots that have not been picked before
+			int random = (int) (Math.random() * (num+1));
+			int temp = spots[random];
+			spots[random]=spots[num];
+			spots[num]=temp;
+			
 			
 			//converts that spot index to matrix index
-			int randRow = (rand - 1) / 4;
-			int randCol = (rand - 1) % 4;
+			int randRow = (spots[num] - 1) / 4;
+			int randCol = (spots[num] - 1) % 4;
 			
 			//assigns that spot a unique number
 			allPanels[randRow][randCol].setNumber(num);
@@ -79,7 +91,7 @@ public class DededeSlider extends JFrame implements KeyListener {
 		}
 
 		//find the only spot that has not gotten a unique number and makes that matrix location dedede's row and col
-		int dededeLoc = spots.get(0);
+		int dededeLoc = spots[0];
 		dededeRow = (dededeLoc - 1) / 4;
 		dededeCol = (dededeLoc - 1) % 4;
 
